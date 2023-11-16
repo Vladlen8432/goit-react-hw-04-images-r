@@ -47,6 +47,10 @@ const App = () => {
   }, [fetchImages, searchQuery]);
 
   const handleSearch = async query => {
+    if (query.trim() === searchQuery.trim()) {
+      return;
+    }
+
     setSearchQuery(query);
     setPage(1);
     setImages([]);

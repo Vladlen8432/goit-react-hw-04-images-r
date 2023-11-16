@@ -5,18 +5,28 @@ import { FaTimes } from 'react-icons/fa';
 
 const Modal = ({ isOpen, image, onClose }) => {
   useEffect(() => {
-    const body = document.body;
+    const handleKeyDown = event => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    const handleClickOutside = e => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    };
 
     if (isOpen) {
-      body.style.overflow = 'hidden';
-    } else {
-      body.style.overflow = 'auto';
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('click', handleClickOutside);
     }
 
     return () => {
-      body.style.overflow = 'auto';
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   const handleOverlayClick = event => {
     if (event.target === event.currentTarget) {
